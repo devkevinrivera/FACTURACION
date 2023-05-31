@@ -2,20 +2,19 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import 'semantic-ui-css/semantic.min.css'
 import { Container, Grid, Header, Icon } from 'semantic-ui-react'
-import { Provider } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from '../redux/store';
-
+import ProviderModal from '../../components/ProviderModal';
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [openProviderModal, setOpenProviderModal] = useState();
-
+  const { provider } = useSelector(state => state.factura)
   const handlerOpen = (datosProvider) => {
-
+    
   };
   return (
     <>
-    <Provider store={store}>
       <AppHeader />
       <ProviderModal element={{
         nombreEmpresa: 'KEVIN',
@@ -32,10 +31,10 @@ export default function Home() {
                   Datos del proveedor
                   <Icon name="pencil" color='white' className='float-right pointer' onClick={() => setOpenProviderModal(true)} />
                 </h2>
-                <p><span class="font-bold">Nombre de la Empresa:</span> Empresa ABC</p>
-                <p><span class="font-bold">NIF:</span> 12345678X</p>
-                <p><span class="font-bold">Dirección:</span> Calle Principal, 123</p>
-                <p><span class="font-bold">Correo Electrónico:</span> ejemplo@empresa.com</p>
+                <p><span class="font-bold">Nombre de la Empresa:</span> {provider?.nombreEmpresa}</p>
+                <p><span class="font-bold">NIF:</span> {provider?.nif}</p>
+                <p><span class="font-bold">Dirección:</span> {provider?.direccion}</p>
+                <p><span class="font-bold">Correo Electrónico:</span> {provider?.correoElectronico}</p>
               </div>
             </Grid.Column>
             <Grid.Column computer={8}>
@@ -74,16 +73,14 @@ export default function Home() {
           </Grid.Row>
         </Grid>
       </Container>
-    </Provider>
-      
     </>
   )
 }
 
 import { Table } from 'semantic-ui-react';
 import AppHeader from '../../components/CustomHeader'
-import ProviderModal from '../../components/ProviderModal';
 import { useState } from 'react';
+import { setClientData, setProviderData } from '@/redux/reducers/facturaSlice';
 
 function Tabla() {
   return (

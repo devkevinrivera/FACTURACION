@@ -1,15 +1,25 @@
 import React from 'react';
 import { Button, Modal, Form } from 'semantic-ui-react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProviderData } from '@/redux/reducers/facturaSlice';
 
 const ProviderModal = ({ isOpen, onClose, onSave, element }) => {
-  const { register, handleSubmit, setValue } = useForm();
-
+  const { register, handleSubmit, setValue, values } = useForm({
+    defaultValues: {
+      nombreEmpresa: 'John',
+      nif: 'Doe',
+      direccion: 'Doe',
+      correoElectronico: 'Doe',
+    },
+    });
+    const dispatch = useDispatch();
+  const { provider } = useSelector(state => state.factura)
   const handleOpen = () => {
-    setValue('nombreEmpresa', element?.nombreEmpresa || '');
-    setValue('nif', element?.nif || '');
-    setValue('direccion', element?.direccion || '');
-    setValue('correoElectronico', element?.correoElectronico || '');
+    setValue('nombreEmpresa', provider?.nombreEmpresa || '');
+    setValue('nif', provider?.nif || '');
+    setValue('direccion', provider?.direccion || '');
+    setValue('correoElectronico', provider?.correoElectronico || '');
   };
 
   const handleClose = () => {
@@ -17,7 +27,10 @@ const ProviderModal = ({ isOpen, onClose, onSave, element }) => {
   };
 
   const handleSave = (data) => {
-    onSave(data);
+    console.log('dispatrch')
+    dispatch(setProviderData({
+      ...data
+    }))
     handleClose();
   };
 
@@ -28,19 +41,19 @@ const ProviderModal = ({ isOpen, onClose, onSave, element }) => {
         <Form onSubmit={handleSubmit(handleSave)}>
           <Form.Field>
             <label>Nombre de la Empresa</label>
-            <input name="nombreEmpresa" ref={register} />
+            <input value={values?.nombreEmpresa} onChange={(ev) => setValue('nombreEmpresa',ev.target.value)} />
           </Form.Field>
           <Form.Field>
             <label>NIF</label>
-            <input name="nif" ref={register} />
+            <input name="nif" value={values?.nif} onChange={(ev) => setValue('nif',ev.target.value)} />
           </Form.Field>
           <Form.Field>
             <label>Dirección</label>
-            <input name="direccion" ref={register} />
+            <input name="direccion" value={values?.direccion} onChange={(ev) => setValue('direccion',ev.target.value)} />
           </Form.Field>
           <Form.Field>
             <label>Correo Electrónico</label>
-            <input name="correoElectronico" ref={register} />
+            <input value={values?.correoElectronico} onChange={(ev) => setValue('correoElectronico',ev.target.value)}/>
           </Form.Field>
           <Button type="submit">Guardar</Button>
         </Form>

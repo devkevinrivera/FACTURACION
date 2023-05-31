@@ -4,16 +4,16 @@ const invoiceSlice = createSlice({
   name: 'invoice',
   initialState: {
     client: {
-      name: '',
+      nombreEmpresa: '',
       nif: '',
-      address: '',
-      email: '',
+      direccion: '',
+      correoElectronico: '',
     },
     provider: {
-      name: '',
+      nombreEmpresa: '',
       nif: '',
-      address: '',
-      email: '',
+      direccion: '',
+      correoElectronico: '',
     },
     concepts: [],
   },
