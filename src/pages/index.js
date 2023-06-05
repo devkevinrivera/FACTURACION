@@ -9,19 +9,50 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [openProviderModal, setOpenProviderModal] = useState();
+  const [openClientModal, setOpenClientModal] = useState();
   const { provider } = useSelector(state => state.factura)
+  const { client } = useSelector(state => state.factura)
+  const { concepts } = useSelector(state => state.factura)
+
+  const [total,setTotal] = useState();
+  const [subtotal, setSubTotal] = useState();
+  const [iva,setIva] = useState();
   const handlerOpen = (datosProvider) => {
     
   };
+
+  useEffect(() => {
+    let total = 0;
+
+    concepts.map(concepto => {
+      total += parseInt(concepto.precio);
+    });
+
+    setTotal(total);
+
+    let calculateIva = ((total * 21)/100) + total;
+    setIva((total * 21)/100)
+    setSubTotal(calculateIva);
+  },[concepts]);
+
   return (
     <>
       <AppHeader />
+      
       <ProviderModal element={{
         nombreEmpresa: 'KEVIN',
         nif: 'XXXXXX',
         direccion: 'Plaza musico',
         correoElectronico: 'kevinriveradev@gmail.com'
       }} onSave={handlerOpen} isOpen={openProviderModal} onClose={setOpenProviderModal}/>
+      
+      <ClientSelectModal element={{
+        nombreEmpresa: 'KEVIN',
+        nif: 'XXXXXX',
+        direccion: 'Plaza musico',
+        correoElectronico: 'kevinriveradev@gmail.com'
+      }} onSave={handlerOpen} isOpen={openClientModal} onClose={setOpenClientModal}/>
+      
       <Container>
         <Grid columns={16} className='factura'>
           <Grid.Row>
@@ -41,12 +72,12 @@ export default function Home() {
               <div class="p-4 rounded-lg px-6">
                 <h2 class="bg-blue-500 text-white text-2xl font-bold mb-2 card-button">
                   Datos del Cliente
-                  <Icon name="pencil" color='white' className='float-right pointer' />
+                  <Icon name="pencil" color='white' className='float-right pointer' onClick={() => setOpenClientModal(true)} />
                 </h2>
-                <p><span class="font-bold">Nombre de la Empresa:</span> Empresa ABC</p>
-                <p><span class="font-bold">NIF:</span> 12345678X</p>
-                <p><span class="font-bold">Dirección:</span> Calle Principal, 123</p>
-                <p><span class="font-bold">Correo Electrónico:</span> ejemplo@empresa.com</p>
+                <p><span class="font-bold">Nombre de la Empresa:</span> {client?.nombreEmpresa}</p>
+                <p><span class="font-bold">NIF:</span> {client?.nif}</p>
+                <p><span class="font-bold">Dirección:</span> {client?.direccion}</p>
+                <p><span class="font-bold">Correo Electrónico:</span> {client?.correoElectronico}</p>
               </div>
             </Grid.Column>
           </Grid.Row>
@@ -60,13 +91,13 @@ export default function Home() {
             <Grid.Column computer={5}>
               <div class="bg-gray-200 p-4 rounded-lg">
                 <div class="mt-4">
-                  <p><span class="font-bold">Base Imponible:</span> 100.00€</p>
+                  <p><span class="font-bold">Base Imponible:</span> {total}€</p>
                 </div>
                 <div class="mt-4">
-                  <p><span class="font-bold">IVA (21%):</span> 21.00€</p>
+                  <p><span class="font-bold">IVA (21%):</span> {iva}€</p>
                 </div>
                 <div class="mt-4">
-                  <p><span class="font-bold">Total:</span> 121.00€</p>
+                  <p><span class="font-bold">Total:</span> {subtotal}€</p>
                 </div>
               </div>
             </Grid.Column>
@@ -79,12 +110,28 @@ export default function Home() {
 
 import { Table } from 'semantic-ui-react';
 import AppHeader from '../../components/CustomHeader'
-import { useState } from 'react';
-import { setClientData, setProviderData } from '@/redux/reducers/facturaSlice';
+import { useEffect, useState } from 'react';
+import { deleteConcept, setClientData, setProviderData } from '@/redux/reducers/facturaSlice';
+import ClientSelectModal from '../../components/ClientModalNow';
+import ConceptModal from '../../components/ConceptModal';
 
 function Tabla() {
+  const [showModa, setShowModal] = useState(false);
+  const { concepts } = useSelector(state => state.factura);
+  const dispatch = useDispatch();
+  const handlerOpen = () => {
+
+  };
+
   return (
     <>
+      <ConceptModal element={{
+        nombreEmpresa: 'KEVIN',
+        nif: 'XXXXXX',
+        direccion: 'Plaza musico',
+        correoElectronico: 'kevinriveradev@gmail.com'
+      }} onSave={handlerOpen} isOpen={showModa} onClose={setShowModal}/>
+      
       <Table celled className='factura-border'>
         <Table.Header>
           <Table.Row>
@@ -93,25 +140,33 @@ function Tabla() {
             <Table.HeaderCell>Precio</Table.HeaderCell>
             <Table.HeaderCell>Impuesto</Table.HeaderCell>
             <Table.HeaderCell>Importe</Table.HeaderCell>
-            <Table.HeaderCell><Icon name="plus" className='factura-icon' size='big'/></Table.HeaderCell>
+            <Table.HeaderCell><Icon onClick={() => setShowModal(true)} name="plus" className='factura-icon' size='big'/></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>Producto 1</Table.Cell>
-            <Table.Cell>2</Table.Cell>
-            <Table.Cell>$10.00</Table.Cell>
-            <Table.Cell>10%</Table.Cell>
-            <Table.Cell>$20.00</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Producto 2</Table.Cell>
-            <Table.Cell>1</Table.Cell>
-            <Table.Cell>$15.00</Table.Cell>
-            <Table.Cell>5%</Table.Cell>
-            <Table.Cell>$15.75</Table.Cell>
-          </Table.Row>
+          {
+            concepts.map(entry => (
+              <Table.Row>
+                <Table.Cell>{entry.concepto}</Table.Cell>
+                <Table.Cell>{entry.cantidad}</Table.Cell>
+                <Table.Cell>{entry.precio}</Table.Cell>
+                <Table.Cell>21%</Table.Cell>
+                <Table.Cell>{parseInt(entry.cantidad) * parseInt(entry.precio)}</Table.Cell>
+                <Table.Cell>
+                  <Icon 
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => {
+                    dispatch(deleteConcept({
+                      id: entry.id
+                    }))
+                  }} name="trash" color='red' />
+                </Table.Cell>
+              </Table.Row>
+            ))
+          }
         </Table.Body>
       </Table>
      

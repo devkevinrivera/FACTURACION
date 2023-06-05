@@ -31,6 +31,10 @@ const invoiceSlice = createSlice({
       const { conceptIndex, updatedConcept } = action.payload;
       state.concepts[conceptIndex] = updatedConcept;
     },
+    deleteConcept: (state,action) => {
+      console.log(action)
+      state.concepts = state.concepts.filter(entry => entry.id !== action.payload.id)
+    },
     calculateTotal: (state) => {
       const total = state.concepts.reduce((acc, concept) => acc + concept.price, 0);
       state.total = total;
@@ -44,6 +48,7 @@ export const {
   addConcept,
   updateConcept,
   calculateTotal,
+  deleteConcept
 } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;
