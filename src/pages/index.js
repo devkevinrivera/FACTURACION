@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import 'semantic-ui-css/semantic.min.css'
-import { Container, Grid, Header, Icon } from 'semantic-ui-react'
+import { Button, Container, Grid, Header, Icon } from 'semantic-ui-react'
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from '../redux/store';
 import ProviderModal from '../../components/ProviderModal';
@@ -14,11 +14,43 @@ export default function Home() {
   const { client } = useSelector(state => state.factura)
   const { concepts } = useSelector(state => state.factura)
 
+
   const [total,setTotal] = useState();
   const [subtotal, setSubTotal] = useState();
   const [iva,setIva] = useState();
   const handlerOpen = (datosProvider) => {
     
+  };
+
+  const generateFactu = async () => {
+    const requesBody = {
+      name: 'kevin'
+    }
+    axios({
+      url: '/api/factura',
+      method: 'POST',
+      responseType: 'blob' ,// Indica que la respuesta será un blob (Binary Large Object)
+      data: {
+        cliente: client,
+        conceptos: concepts,
+        totales: {
+          total: total,
+          subtotal: subtotal,
+          iva: iva
+        },
+      }
+    },requesBody)
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'factura.pdf'); // Nombre del archivo a descargar
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {
@@ -102,6 +134,11 @@ export default function Home() {
               </div>
             </Grid.Column>
           </Grid.Row>
+          <Grid.Row>
+            <Grid.Column computer={16}>
+              <Button color='green' onClick={() => generateFactu()}>Generar Factura</Button>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
       </Container>
     </>
@@ -114,6 +151,7 @@ import { useEffect, useState } from 'react';
 import { deleteConcept, setClientData, setProviderData } from '@/redux/reducers/facturaSlice';
 import ClientSelectModal from '../../components/ClientModalNow';
 import ConceptModal from '../../components/ConceptModal';
+import axios from 'axios';
 
 function Tabla() {
   const [showModa, setShowModal] = useState(false);
@@ -136,7 +174,6 @@ function Tabla() {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Concepto</Table.HeaderCell>
-            <Table.HeaderCell>Cantidad</Table.HeaderCell>
             <Table.HeaderCell>Precio</Table.HeaderCell>
             <Table.HeaderCell>Impuesto</Table.HeaderCell>
             <Table.HeaderCell>Importe</Table.HeaderCell>
@@ -149,7 +186,6 @@ function Tabla() {
             concepts.map(entry => (
               <Table.Row>
                 <Table.Cell>{entry.concepto}</Table.Cell>
-                <Table.Cell>{entry.cantidad}</Table.Cell>
                 <Table.Cell>{entry.precio}</Table.Cell>
                 <Table.Cell>21%</Table.Cell>
                 <Table.Cell>{parseInt(entry.cantidad) * parseInt(entry.precio)}</Table.Cell>
