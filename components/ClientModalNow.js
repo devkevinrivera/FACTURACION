@@ -11,6 +11,7 @@ const ClientSelectModal = ({ isOpen, onClose, onSave, element }) => {
       nif: 'Doe',
       direccion: 'Doe',
       correoElectronico: 'Doe',
+      numFactura: 0,
     },
     });
     const dispatch = useDispatch();
@@ -38,6 +39,10 @@ const ClientSelectModal = ({ isOpen, onClose, onSave, element }) => {
       <Modal.Header>{element ? 'Editar Elemento' : 'Crear Elemento'}</Modal.Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit(handleSave)}>
+          <Form.Field>
+            <label>Número de factura</label>
+            <input value={values?.numFactura} onChange={(ev) => setValue('numFactura',ev.target.value)} />
+          </Form.Field>
           <Form.Field>
             <label>Nombre de la Empresa</label>
             <input value={values?.nombreEmpresa} onChange={(ev) => setValue('nombreEmpresa',ev.target.value)} />

@@ -18,6 +18,15 @@ function getRandomNumber() {
   return Math.floor(Math.random() * 11) + 30; // Número aleatorio entre 30 y 40
 }
 
+function convertirADinero(numero) {
+    try {
+      const dinero = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(numero);
+      return dinero;
+    } catch (error) {
+      return "Error: El valor ingresado no es un número válido.";
+    }
+  }
+  
 const generateFactura = async (req, res, id) => {
     console.log('---------------req.body')
     console.log(req.body)
@@ -99,7 +108,10 @@ const generateFactura = async (req, res, id) => {
         .margin-datos-envio {
             margin-right: 10rem !important;
         }
-
+        .account-number {
+            background: #f1f2f3;
+            border-radius: 8px;
+        }
         .text-a-center {
             text-align: center;
         }
@@ -127,18 +139,19 @@ const generateFactura = async (req, res, id) => {
         <section>
           <div class="body-fatura-cabecera"> 
             <div style="width: 50%">
-                <p class="text-font">VAT/NIF ${cliente.nif}</p>
+                <p class="text-font">NIF ${cliente.nif}</p>
                 <p class="text-font">${cliente.nombreEmpresa}</p>
                 <p class="text-font">${cliente.direccion}</p>
                 <p class="text-font">${cliente.correoElectronico}</p>
             </div>
             <div style="width: 50%">
-              <p class="text-font">VAT/NIF XXXXXXXX</p>
-              <p class="text-font">Calle Bilbao Nº 33 46019</p>
+              <p class="text-font">Número factura: ${cliente?.numFactura}</p>
+              <p class="text-font">NIF 44930765N</p>
+              <p class="text-font">Calle Bilbao Nº 43 46009</p>
               <p class="text-font">València, Valencia</p>
               <p class="text-font">+34 633140422</p>
               <p class="text-font">torres.serviciosdelimpieza@gmail.com</p>
-              <p class="text-font">www.servicioslimpiezatorres.com</p>
+              <p class="text-font">www.torreslimpiezas.es</p>
             </div>
           </div>
 
@@ -158,31 +171,35 @@ const generateFactura = async (req, res, id) => {
                 conceptos.map(entry => (
                     `<tr>
                         <td>${entry.concepto}</td>
-                        <td>${entry.precio}€</td>
+                        <td>${convertirADinero(entry.precio)}</td>
                         <td>21%</td>
-                        <td>${entry.precio}€</td>
+                        <td>${convertirADinero(entry.precio)}</td>
                     </tr>`
                 ))
               }
               </tbody>
             </table>
+            
           </div>
-
+          <div class="account-number">
+            <p>Número de cuenta: </p>
+            <p><b>ES95 0182 6589 7102 0387 7801</b></p>
+            </div>
           <div class="final-price">
             <div class="container">
                <table>
                 <tbody>
                   <tr>
                     <td>Base Imponible</td>
-                    <td>${totales.total}€</td>
+                    <td>${convertirADinero(totales.total)}</td>
                   </tr>
                   <tr>
                     <td>IVA (21%)</td>
-                    <td>${totales.iva}€</td>
+                    <td>${convertirADinero(totales.iva)}</td>
                   </tr>
                   <tr>
                     <td>Total</td>
-                    <td>${totales.subtotal}€</td>
+                    <td>${convertirADinero(totales.subtotal)}</td>
                   </tr>
                 </tbody>
               </table>
