@@ -43,16 +43,8 @@ const ConceptModal = ({ isOpen, onClose, onSave, element }) => {
             <input value={values?.nombreEmpresa} onChange={(ev) => setValue('concepto',ev.target.value)} />
           </Form.Field>
           <Form.Field>
-            <label>Cantidad</label>
-            <input name="nif" value={values?.nif} onChange={(ev) => setValue('cantidad',ev.target.value)} />
-          </Form.Field>
-          <Form.Field>
             <label>Precio</label>
             <input name="direccion" value={values?.direccion} onChange={(ev) => setValue('precio',ev.target.value)} />
-          </Form.Field>
-          <Form.Field>
-            <label>Importe</label>
-            <input value={values?.correoElectronico} onChange={(ev) => setValue('importe',ev.target.value)}/>
           </Form.Field>
           <Button type="submit">Guardar</Button>
         </Form>

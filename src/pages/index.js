@@ -94,10 +94,12 @@ export default function Home() {
                   Datos del proveedor
                   <Icon name="pencil" color='white' className='float-right pointer' onClick={() => setOpenProviderModal(true)} />
                 </h2>
-                <p><span class="font-bold">Nombre de la Empresa:</span> {provider?.nombreEmpresa}</p>
-                <p><span class="font-bold">NIF:</span> {provider?.nif}</p>
-                <p><span class="font-bold">Dirección:</span> {provider?.direccion}</p>
-                <p><span class="font-bold">Correo Electrónico:</span> {provider?.correoElectronico}</p>
+                <p class="text-font">NIF 44930765N</p>
+                <p class="text-font">Calle Bilbao Nº 43 46009</p>
+                <p class="text-font">València, Valencia</p>
+                <p class="text-font">+34 633140422</p>
+                <p class="text-font">torres.serviciosdelimpieza@gmail.com</p>
+                <p class="text-font">www.torreslimpiezas.es</p>
               </div>
             </Grid.Column>
             <Grid.Column computer={8}>
@@ -176,7 +178,6 @@ function Tabla() {
             <Table.HeaderCell>Concepto</Table.HeaderCell>
             <Table.HeaderCell>Precio</Table.HeaderCell>
             <Table.HeaderCell>Impuesto</Table.HeaderCell>
-            <Table.HeaderCell>Importe</Table.HeaderCell>
             <Table.HeaderCell><Icon onClick={() => setShowModal(true)} name="plus" className='factura-icon' size='big'/></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -188,7 +189,6 @@ function Tabla() {
                 <Table.Cell>{entry.concepto}</Table.Cell>
                 <Table.Cell>{entry.precio}</Table.Cell>
                 <Table.Cell>21%</Table.Cell>
-                <Table.Cell>{parseInt(entry.cantidad) * parseInt(entry.precio)}</Table.Cell>
                 <Table.Cell>
                   <Icon 
                   style={{

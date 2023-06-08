@@ -40,7 +40,6 @@ const generateFactura = async (req, res, id) => {
       </head>
       <body class="body-factura">
       <style>
-      @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100&display=swap');
         .body-factura {
             /* background-color: brown; */
             font-size: 14px !important;
@@ -132,8 +131,34 @@ const generateFactura = async (req, res, id) => {
 
         .final-price {
             border-radius: 8px !important;
-            padding-left: 75% !important;
+            padding-left: 70% !important;
             margin-top: 1rem;
+        }
+        .alinear-derecha {
+          text-align: right;
+        }
+        .total-content {
+          width: 15rem !important;
+          background: #f1f2f3;
+          display: flex !important;
+          justify-content: space-between !important;
+        }
+        .total-content p {
+          width: 100%;
+        }
+        .total-content .title-ex {
+          width: 50% !important;
+        }
+        .total-content .title-external {
+          width: 50% !important;
+          text-align: right;
+        }
+        .result  {
+          width: 80% !important;
+          font-weight: bold;
+        }
+        .ancho-fijo {
+          width: 200px !important;
         }
       </style>
         <section>
@@ -162,7 +187,6 @@ const generateFactura = async (req, res, id) => {
                 <tr>
                   <th class="table-right">Concepto</th>
                   <th class="table-right">Precio</th>
-                  <th class="table-right">Impuesto</th>
                   <th class="table-right">Importe</th>
                 </tr>
               </thead>
@@ -172,7 +196,6 @@ const generateFactura = async (req, res, id) => {
                     `<tr>
                         <td>${entry.concepto}</td>
                         <td>${convertirADinero(entry.precio)}</td>
-                        <td>21%</td>
                         <td>${convertirADinero(entry.precio)}</td>
                     </tr>`
                 ))
@@ -190,16 +213,19 @@ const generateFactura = async (req, res, id) => {
                <table>
                 <tbody>
                   <tr>
-                    <td>Base Imponible</td>
-                    <td>${convertirADinero(totales.total)}</td>
+                    <td class="ancho-fijo">Base Imponible</td>
+                    <td></td>
+                    <td class="alinear-derecha">${convertirADinero(totales.total)}</td>
                   </tr>
                   <tr>
-                    <td>IVA (21%)</td>
-                    <td>${convertirADinero(totales.iva)}</td>
+                    <td class="ancho-fijo">IVA (21%)</td>
+                    <td></td>
+                    <td class="alinear-derecha">${convertirADinero(totales.iva)}</td>
                   </tr>
                   <tr>
-                    <td>Total</td>
-                    <td>${convertirADinero(totales.subtotal)}</td>
+                    <td class="ancho-fijo">Total</td>
+                    <td></td>
+                    <td class="alinear-derecha">${convertirADinero(totales.subtotal)}</td>
                   </tr>
                 </tbody>
               </table>
