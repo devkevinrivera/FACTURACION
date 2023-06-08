@@ -187,7 +187,6 @@ const generateFactura = async (req, res, id) => {
                 <tr>
                   <th class="table-right">Concepto</th>
                   <th class="table-right">Precio</th>
-                  <th class="table-right">Importe</th>
                 </tr>
               </thead>
               <tbody>
@@ -195,7 +194,6 @@ const generateFactura = async (req, res, id) => {
                 conceptos.map(entry => (
                     `<tr>
                         <td>${entry.concepto}</td>
-                        <td>${convertirADinero(entry.precio)}</td>
                         <td>${convertirADinero(entry.precio)}</td>
                     </tr>`
                 ))
