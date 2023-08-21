@@ -27,12 +27,29 @@ function convertirADinero(numero) {
     }
   }
   
+  
 const generateFactura = async (req, res, id) => {
     console.log('---------------req.body')
     console.log(req.body)
 
     const { cliente , conceptos, totales } = req.body;
-    console.log(conceptos)
+    console.log()
+    const getAllCells = () => {
+      const totalElements = 10;
+      const neededElements = totalElements - conceptos.length;
+      let auxArray = []
+      for (let i = 0; i < neededElements; i++) {
+        auxArray.push(i)
+      }
+      return auxArray.map((entry) => (
+        `<tr class="white">
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+          <td>x</td>
+        </tr>`
+      ))
+    }
   const html = `
     <html>
       <head>
@@ -40,6 +57,12 @@ const generateFactura = async (req, res, id) => {
       </head>
       <body class="body-factura">
       <style>
+      .white {
+        color: white !important; 
+      }
+      .white li {
+        color: white !important; 
+      }
         .body-factura {
             /* background-color: brown; */
             font-size: 14px !important;
@@ -78,6 +101,7 @@ const generateFactura = async (req, res, id) => {
             background-color: #f1f2f3;
             border-radius: 8px !important;
             padding: 1rem !important;
+            min-height: 500px;
         }
 
         .body-fatura-tabla table {
@@ -160,41 +184,69 @@ const generateFactura = async (req, res, id) => {
         .ancho-fijo {
           width: 200px !important;
         }
+        .factura-title {
+          font-size: 46px;
+          font-weight: bold;
+          color: red;
+        }
+        .mg-deep {
+          margin-bottom: 20px !important;
+        }
+        .table-border {
+          border: 2px solid black;
+        }
+        table {
+          border-collapse: collapse; /* Combina los bordes de las celdas adyacentes */
+          width: 100%; /* O el ancho deseado */
+        }
+        
+        th, td {
+          border: 1px solid black; /* Agrega un borde de 1px sólido a las celdas */
+          padding: 8px; /* Agrega un espacio interno para el contenido */
+          text-align: left; /* Alinea el texto a la izquierda */
+        }
+        
+        th {
+          background-color: #f2f2f2; /* Agrega un color de fondo para las celdas de encabezado */
+        }
       </style>
         <section>
           <div class="body-fatura-cabecera"> 
             <div style="width: 50%">
+                <p class="factura-title">FACTURA</p>
                 <p class="text-font">NIF ${cliente.nif}</p>
                 <p class="text-font">${cliente.nombreEmpresa}</p>
                 <p class="text-font">${cliente.direccion}</p>
-                <p class="text-font">${cliente.correoElectronico}</p>
             </div>
             <div style="width: 50%">
-              <p class="text-font">Número factura: ${cliente?.numFactura}</p>
-              <p class="text-font">NIF 44930765N</p>
-              <p class="text-font">Calle Bilbao Nº 43 46009</p>
+              <p class="text-font mg-deep"><b>Número factura: ${cliente?.numFactura}</b></p>
+              <p class="text-font">NIF 53881109k</p>
+              <p class="text-font">Plaza musico espi 10, 46019</p>
               <p class="text-font">València, Valencia</p>
-              <p class="text-font">+34 633140422</p>
-              <p class="text-font">torres.serviciosdelimpieza@gmail.com</p>
-              <p class="text-font">www.torreslimpiezas.es</p>
+              <p class="text-font">+34 631021443</p>
+              <p class="text-font">sk.adecuaciones@gmail.com</p>
             </div>
           </div>
 
           
           <div class="body-fatura-tabla">
-            <table>
+            <table class="">
               <thead>
                 <tr>
+                  <th class="table-right ">Cantidad</th>
                   <th class="table-right">Concepto</th>
                   <th class="table-right">Precio</th>
+                  <th class="table-right">Total</th>
                 </tr>
               </thead>
               <tbody>
               ${
                 conceptos.map(entry => (
                     `<tr>
+                        <td></td>
                         <td>${entry.concepto}</td>
                         <td>${convertirADinero(entry.precio)}</td>
+                        <td></td>
                     </tr>`
                 ))
               }
@@ -204,7 +256,7 @@ const generateFactura = async (req, res, id) => {
           </div>
           <div class="account-number">
             <p>Número de cuenta: </p>
-            <p><b>ES95 0182 6589 7102 0387 7801</b></p>
+            <p><b>ES71 2100 6577 8902 0017 3721</b></p>
             </div>
           <div class="final-price">
             <div class="container">

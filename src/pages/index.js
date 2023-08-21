@@ -94,12 +94,10 @@ export default function Home() {
                   Datos del proveedor
                   <Icon name="pencil" color='white' className='float-right pointer' onClick={() => setOpenProviderModal(true)} />
                 </h2>
-                <p class="text-font">NIF 44930765N</p>
-                <p class="text-font">Calle Bilbao Nº 43 46009</p>
+                <p class="text-font">NIF 53881109k</p>
+                <p class="text-font">Plaza musico espi 10</p>
                 <p class="text-font">València, Valencia</p>
-                <p class="text-font">+34 633140422</p>
-                <p class="text-font">torres.serviciosdelimpieza@gmail.com</p>
-                <p class="text-font">www.torreslimpiezas.es</p>
+                <p class="text-font">+34 631021443</p>
               </div>
             </Grid.Column>
             <Grid.Column computer={8}>
@@ -111,7 +109,6 @@ export default function Home() {
                 <p><span class="font-bold">Nombre de la Empresa:</span> {client?.nombreEmpresa}</p>
                 <p><span class="font-bold">NIF:</span> {client?.nif}</p>
                 <p><span class="font-bold">Dirección:</span> {client?.direccion}</p>
-                <p><span class="font-bold">Correo Electrónico:</span> {client?.correoElectronico}</p>
               </div>
             </Grid.Column>
           </Grid.Row>
