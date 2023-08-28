@@ -215,11 +215,13 @@ const generateFactura = async (req, res, id) => {
             <div style="width: 50%">
                 <p class="factura-title">FACTURA</p>
                 <p class="text-font">NIF ${cliente.nif}</p>
-                <p class="text-font">${cliente.nombreEmpresa}</p>
-                <p class="text-font">${cliente.direccion}</p>
+                <p class="text-font">CLIENTE:${cliente.nombreEmpresa}</p>
+                <p class="text-font">DIRECCIÓN:${cliente.direccion}</p>
+                
             </div>
             <div style="width: 50%">
-              <p class="text-font mg-deep"><b>Número factura: ${cliente?.numFactura}</b></p>
+              <p class="text-font "><b>Número factura: ${cliente?.numFactura}</b></p>
+              <p class="text-fontmg-deep"><b>FECHA: ${cliente.date}</b></p>
               <p class="text-font">NIF 53881109k</p>
               <p class="text-font">Plaza musico espi 10, 46019</p>
               <p class="text-font">València, Valencia</p>

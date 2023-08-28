@@ -8,6 +8,7 @@ const invoiceSlice = createSlice({
       nif: '',
       direccion: '',
       correoElectronico: '',
+      date: ''
     },
     provider: {
       nombreEmpresa: '',

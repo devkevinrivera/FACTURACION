@@ -88,7 +88,7 @@ export default function Home() {
       <Container>
         <Grid columns={16} className='factura'>
           <Grid.Row>
-            <Grid.Column computer={8}>
+            <Grid.Column computer={8} mobile={16}>
               <div class=" p-4 rounded-lg px-6">
                 <h2 class=" bg-blue-500 text-white text-2xl font-bold mb-2 card-button">
                   Datos del proveedor
@@ -100,7 +100,7 @@ export default function Home() {
                 <p class="text-font">+34 631021443</p>
               </div>
             </Grid.Column>
-            <Grid.Column computer={8}>
+            <Grid.Column computer={8} mobile={16}>
               <div class="p-4 rounded-lg px-6">
                 <h2 class="bg-blue-500 text-white text-2xl font-bold mb-2 card-button">
                   Datos del Cliente
@@ -113,13 +113,13 @@ export default function Home() {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column computer={16}>
+            <Grid.Column computer={16} mobile={16}>
               <Tabla />
             </Grid.Column>
             <Grid.Column computer={11}>
 
             </Grid.Column>
-            <Grid.Column computer={5}>
+            <Grid.Column computer={5} mobile={16}>
               <div class="bg-gray-200 p-4 rounded-lg">
                 <div class="mt-4">
                   <p><span class="font-bold">Base Imponible:</span> {total}€</p>

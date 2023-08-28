@@ -12,6 +12,7 @@ const ClientSelectModal = ({ isOpen, onClose, onSave, element }) => {
       direccion: 'Doe',
       correoElectronico: 'Doe',
       numFactura: 0,
+      date: 0,
     },
     });
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const ClientSelectModal = ({ isOpen, onClose, onSave, element }) => {
     setValue('nif', provider?.nif || '');
     setValue('direccion', provider?.direccion || '');
     setValue('correoElectronico', provider?.correoElectronico || '');
+    setValue('date', provider?.date || '');
   };
 
   const handleClose = () => {
@@ -28,6 +30,7 @@ const ClientSelectModal = ({ isOpen, onClose, onSave, element }) => {
   };
 
   const handleSave = (data) => {
+    console.log(data)
     dispatch(setClientData({
       ...data
     }))
@@ -58,6 +61,10 @@ const ClientSelectModal = ({ isOpen, onClose, onSave, element }) => {
           <Form.Field>
             <label>Correo Electrónico</label>
             <input value={values?.correoElectronico} onChange={(ev) => setValue('correoElectronico',ev.target.value)}/>
+          </Form.Field>
+          <Form.Field>
+            <label>Fecha</label>
+            <input value={values?.date} onChange={(ev) => setValue('date',ev.target.value)}/>
           </Form.Field>
           <Button type="submit">Guardar</Button>
         </Form>
