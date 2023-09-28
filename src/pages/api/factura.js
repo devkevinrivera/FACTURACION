@@ -29,11 +29,7 @@ function convertirADinero(numero) {
   
   
 const generateFactura = async (req, res, id) => {
-    console.log('---------------req.body')
-    console.log(req.body)
-
-    const { cliente , conceptos, totales } = req.body;
-    console.log()
+    const { cliente = '', conceptos = '', totales = '' } = req.body;
     const getAllCells = () => {
       const totalElements = 10;
       const neededElements = totalElements - conceptos.length;
@@ -222,6 +218,7 @@ const generateFactura = async (req, res, id) => {
             <div style="width: 50%">
               <p class="text-font "><b>Número factura: ${cliente?.numFactura}</b></p>
               <p class="text-fontmg-deep"><b>FECHA: ${cliente.date}</b></p>
+              <p class="text-font">Jorge Hernan Rivera Lopez</p>
               <p class="text-font">NIF 53881109k</p>
               <p class="text-font">Plaza musico espi 10, 46019</p>
               <p class="text-font">València, Valencia</p>
