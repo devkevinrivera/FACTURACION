@@ -32,7 +32,7 @@ const generateFactura = async (req, res, id) => {
     const { cliente = '', conceptos = '', totales = '' } = req.body;
     const getAllCells = () => {
       const totalElements = 10;
-      const neededElements = totalElements - conceptos.length;
+      const neededElements = totalElements - conceptos?.length;
       let auxArray = []
       for (let i = 0; i < neededElements; i++) {
         auxArray.push(i)
@@ -243,9 +243,9 @@ const generateFactura = async (req, res, id) => {
                 conceptos.map(entry => (
                     `<tr>
                         <td></td>
-                        <td>${entry.concepto}</td>
-                        <td>${convertirADinero(entry.precio)}</td>
-                        <td></td>
+                        <td>${entry?.concepto}</td>
+                        <td>${convertirADinero(entry?.precio)}</td>
+                        <td>${convertirADinero(entry?.precio)}</td>
                     </tr>`
                 ))
               }
@@ -264,17 +264,17 @@ const generateFactura = async (req, res, id) => {
                   <tr>
                     <td class="ancho-fijo">Base Imponible</td>
                     <td></td>
-                    <td class="alinear-derecha">${convertirADinero(totales.total)}</td>
+                    <td class="alinear-derecha">${convertirADinero(totales?.total)}</td>
                   </tr>
                   <tr>
                     <td class="ancho-fijo">IVA (21%)</td>
                     <td></td>
-                    <td class="alinear-derecha">${convertirADinero(totales.iva)}</td>
+                    <td class="alinear-derecha">${convertirADinero(totales?.iva)}</td>
                   </tr>
                   <tr>
                     <td class="ancho-fijo">Total</td>
                     <td></td>
-                    <td class="alinear-derecha">${convertirADinero(totales.subtotal)}</td>
+                    <td class="alinear-derecha">${convertirADinero(totales?.subtotal)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -308,7 +308,7 @@ const generateFactura = async (req, res, id) => {
       return;
     }
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=example.pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=factura.pdf');
     res.send(buffer);
   });
 }
